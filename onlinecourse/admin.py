@@ -1,13 +1,25 @@
 from django.contrib import admin
-# <HINT> Import any new Models here
-from .models import Course, Lesson, Instructor, Learner
+from .models import Course, Lesson, Instructor, Learner, Questions, Choice, Submission
 
-# <HINT> Register QuestionInline and ChoiceInline classes here
+class QuestionInline(admin.StackedInline):
+    model = Questions
+    extra = 2
+
+
+class ChioceInline(admin.StackedInline):
+    model = Choice
+    extra = 2
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    inlines = [ChioceInline]
+    list_display = ['content']
 
 
 class LessonInline(admin.StackedInline):
     model = Lesson
     extra = 5
+
 
 
 # Register your models here.
@@ -22,8 +34,9 @@ class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
 
 
-# <HINT> Register Question and Choice models here
-
+admin.site.register(Questions ,QuestionAdmin)
+admin.site.register(Choice)
+admin.site.register(Submission)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
